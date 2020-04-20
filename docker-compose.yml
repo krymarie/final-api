@@ -6,7 +6,10 @@ services:
       - "5000:5000"
     volumes:
       - .:/code
+      # - ./app:/app
     environment:
       FLASK_ENV: development
   redis:
     image: "redis:alpine"
+  # env_file:
+  #   - .env
