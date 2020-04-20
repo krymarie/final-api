@@ -102,7 +102,7 @@ mongoose
     "mongodb+srv://krymitch:Asaiwb2020@cluster0-qxb88.mongodb.net/test?retryWrites=true&w=majority"
   )
   .then((result) => {
-    app.listen(5000);
-    a;
+    app.listen(5000); // toggle for docker dev
+    // app.listen(8080); //toggle for dev without docker
   })
   .catch((err) => console.log(err));
