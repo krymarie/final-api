@@ -79,7 +79,19 @@ module.exports = {
       validator.isEmpty(postInput.content) ||
       !validator.isLength(postInput.content, { min: 5 })
     ) {
-      errors.push({ message: "Content is invalid." });
+      errors.push({ message: "Content is too short." });
+    }
+    if (
+      validator.isEmpty(postInput.phone) ||
+      !validator.isLength(postInput.phone, { min: 10 })
+    ) {
+      errors.push({ message: "Phone is too short." });
+    }
+    if (
+      validator.isEmpty(postInput.insterestLevel) ||
+      !validator.isLength(postInput.insterestLevel, { min: 1 })
+    ) {
+      errors.push({ message: "Must contain interest level for analytics." });
     }
     if (errors.length > 0) {
       const error = new Error("Invalid input.");
@@ -96,7 +108,8 @@ module.exports = {
     const post = new Post({
       title: postInput.title,
       content: postInput.content,
-      imageUrl: postInput.imageUrl,
+      photo: postInput.photo,
+      insterestLevel: postInput.insterestLevel,
       creator: user,
     });
     const createdPost = await post.save();
@@ -186,6 +199,18 @@ module.exports = {
     ) {
       errors.push({ message: "Content is invalid." });
     }
+    if (
+      validator.isEmpty(postInput.phone) ||
+      !validator.isLength(postInput.phone, { min: 10 })
+    ) {
+      errors.push({ message: "Phone is too short." });
+    }
+    if (
+      validator.isEmpty(postInput.insterestLevel) ||
+      !validator.isLength(postInput.insterestLevel, { min: 1 })
+    ) {
+      errors.push({ message: "Must contain Interest Level for Analytics." });
+    }
     if (errors.length > 0) {
       const error = new Error("Invalid input.");
       error.data = errors;
@@ -194,6 +219,8 @@ module.exports = {
     }
     post.title = postInput.title;
     post.content = postInput.content;
+    post.phone = postInput.phone;
+    post.insterestLevel = postInput.insterestLevel;
     if (postInput.imageUrl !== "undefined") {
       post.imageUrl = postInput.imageUrl;
     }

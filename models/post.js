@@ -7,11 +7,15 @@ const clientSchema = new Schema(
       type: String,
       required: true
     },
-    imageUrl: {
+    content: {
       type: String,
       required: true
     },
-    content: {
+    phone: {
+      type: String,
+      required: true
+    },
+    insterestLevel: {
       type: String,
       required: true
     },

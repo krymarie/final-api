@@ -5,7 +5,8 @@ module.exports = buildSchema(`
         _id: ID!
         title: String!
         content: String!
-        imageUrl: String!
+        phone: String!
+        insterestLevel: String!
         creator: User!
         createdAt: String!
         updatedAt: String!
@@ -39,7 +40,8 @@ module.exports = buildSchema(`
     input PostInputData {
         title: String!
         content: String!
-        imageUrl: String!
+        phone: String!
+        insterestLevel: String!
     }
 
     type RootQuery {

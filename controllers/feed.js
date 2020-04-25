@@ -7,6 +7,25 @@ const io = require('../socket');
 const Post = require('../models/post');
 const User = require('../models/user');
 
+// old way but works
+// exports.getPosts = (req, res, next) => {
+//   res.status(200).json({
+//     posts: [
+//       {
+//         _id: "1",
+//         title: "Client Name Example",
+//         content: "This is content",
+//         phone: "801.555.5555",
+//         insterestLevel: "3",
+//         creator: {
+//           name: "KrystalMitchell",
+//         },
+//         createdAt: new Date(),
+//       },
+//     ],
+//   });
+// };
+//new way
 exports.getPosts = async (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
@@ -43,13 +62,15 @@ exports.createPost = async (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  const imageUrl = req.file.path;
   const title = req.body.title;
   const content = req.body.content;
+  const phone = req.body.phone;
+  const insterestLevel = req.body.insterestLevel;
   const post = new Post({
     title: title,
     content: content,
-    imageUrl: imageUrl,
+    phone: phone,
+    insterestLevel: insterestLevel,
     creator: req.userId
   });
   try {
@@ -102,15 +123,8 @@ exports.updatePost = async (req, res, next) => {
   }
   const title = req.body.title;
   const content = req.body.content;
-  let imageUrl = req.body.image;
-  if (req.file) {
-    imageUrl = req.file.path;
-  }
-  if (!imageUrl) {
-    const error = new Error('No file picked.');
-    error.statusCode = 422;
-    throw error;
-  }
+  const phone = req.body.phone;
+  const insterestLevel = req.body.insterestLevel;
   try {
     const post = await Post.findById(postId).populate('creator');
     if (!post) {
@@ -127,8 +141,9 @@ exports.updatePost = async (req, res, next) => {
       clearImage(post.imageUrl);
     }
     post.title = title;
-    post.imageUrl = imageUrl;
     post.content = content;
+    post.phone = phone;
+    post.insterestLevel = insterestLevel;
     const result = await post.save();
     io.getIO().emit('posts', { action: 'update', post: result });
     res.status(200).json({ message: 'Post updated!', post: result });
